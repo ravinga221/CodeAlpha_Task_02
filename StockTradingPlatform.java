@@ -22,4 +22,29 @@ public class StockTradingPlatform
         this.marketClose = LocalTime.of(16, 0);
         this.currentTime = LocalDateTime.now();
     }
+	
+	private void initializeStocks() 
+	{
+        availableStocks = new HashMap<>();
+        availableStocks.put("AAPL", new Stock("AAPL", "Apple Inc.", 185.00, 0.02));
+        availableStocks.put("GOOGL", new Stock("GOOGL", "Alphabet Inc.", 145.50, 0.018));
+        availableStocks.put("MSFT", new Stock("MSFT", "Microsoft Corp.", 420.00, 0.015));
+        availableStocks.put("AMZN", new Stock("AMZN", "Amazon.com Inc.", 180.00, 0.022));
+        availableStocks.put("TSLA", new Stock("TSLA", "Tesla Inc.", 175.00, 0.025));
+        availableStocks.put("NFLX", new Stock("NFLX", "Netflix Inc.", 620.00, 0.02));
+        availableStocks.put("META", new Stock("META", "Meta Platforms", 485.00, 0.019));
+        availableStocks.put("NVDA", new Stock("NVDA", "NVIDIA Corp.", 950.00, 0.023));
+    }
+	
+	public void updateMarketData() 
+	{
+        Random random = new Random();
+        for (Stock stock : availableStocks.values()) {
+            double changePercent = -stock.getVolatility() + 
+                                 random.nextDouble() * 2 * stock.getVolatility();
+            double newPrice = stock.getPrice() * (1 + changePercent);
+            newPrice = Math.max(0.01, newPrice);
+            stock.setPrice(Math.round(newPrice * 100.0) / 100.0);
+        }
+    }
 }
