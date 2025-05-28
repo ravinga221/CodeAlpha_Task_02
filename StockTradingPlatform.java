@@ -47,4 +47,14 @@ public class StockTradingPlatform
             stock.setPrice(Math.round(newPrice * 100.0) / 100.0);
         }
     }
+	
+	public boolean isMarketOpen() 
+	{
+        LocalTime now = currentTime.toLocalTime();
+        DayOfWeek day = currentTime.getDayOfWeek();
+        return !now.isBefore(marketOpen) && 
+               !now.isAfter(marketClose) && 
+               day != DayOfWeek.SATURDAY && 
+               day != DayOfWeek.SUNDAY;
+    }
 }
