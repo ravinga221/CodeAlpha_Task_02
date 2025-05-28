@@ -39,7 +39,8 @@ public class StockTradingPlatform
 	public void updateMarketData() 
 	{
         Random random = new Random();
-        for (Stock stock : availableStocks.values()) {
+        for (Stock stock : availableStocks.values())
+		{
             double changePercent = -stock.getVolatility() + 
                                  random.nextDouble() * 2 * stock.getVolatility();
             double newPrice = stock.getPrice() * (1 + changePercent);
@@ -56,5 +57,48 @@ public class StockTradingPlatform
                !now.isAfter(marketClose) && 
                day != DayOfWeek.SATURDAY && 
                day != DayOfWeek.SUNDAY;
+    }
+	
+	public String buyStock(String symbol, int quantity) 
+	{
+        if (!isMarketOpen()) 
+		{
+            return "Market is closed. Trading available Mon-Fri 9:30AM-4:00PM.";
+        }
+
+        if (!availableStocks.containsKey(symbol)) 
+		{
+            return "Stock " + symbol + " not found.";
+        }
+
+        Stock stock = availableStocks.get(symbol);
+        double totalCost = stock.getPrice() * quantity;
+
+        if (totalCost > cashBalance) 
+		{
+            return "Insufficient funds. Needed: $" + totalCost + ", Available: $" + cashBalance;
+        }
+
+        cashBalance -= totalCost;
+        
+        if (portfolio.containsKey(symbol)) 
+		{
+            PortfolioItem item = portfolio.get(symbol);
+            item.setQuantity(item.getQuantity() + quantity);
+            item.setAveragePrice(
+                (item.getAveragePrice() * item.getQuantity() + totalCost) / 
+                (item.getQuantity() + quantity)
+            );
+        } 
+		else 
+		{
+            portfolio.put(symbol, new PortfolioItem(stock, quantity, stock.getPrice()));
+        }
+
+        transactionHistory.add(new Transaction(
+            "BUY", symbol, quantity, stock.getPrice(), LocalDateTime.now()
+        ));
+
+        return "Successfully bought " + quantity + " shares of " + symbol + " at $" + stock.getPrice() + " per share.";
     }
 }
