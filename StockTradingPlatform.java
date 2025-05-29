@@ -101,4 +101,43 @@ public class StockTradingPlatform
 
         return "Successfully bought " + quantity + " shares of " + symbol + " at $" + stock.getPrice() + " per share.";
     }
+	
+	public String sellStock(String symbol, int quantity) 
+	{
+        if (!isMarketOpen()) 
+		{
+            return "Market is closed. Trading available Mon-Fri 9:30AM-4:00PM.";
+        }
+
+        if (!portfolio.containsKey(symbol))
+		{
+            return "You don't own any shares of " + symbol;
+        }
+
+        PortfolioItem item = portfolio.get(symbol);
+        if (item.getQuantity() < quantity) 
+		{
+            return "Insufficient shares. You only own " + item.getQuantity() + " shares of " + symbol;
+        }
+
+        Stock stock = availableStocks.get(symbol);
+        double totalValue = stock.getPrice() * quantity;
+
+        cashBalance += totalValue;
+        
+        if (item.getQuantity() == quantity) 
+		{
+            portfolio.remove(symbol);
+        } 
+		else 
+		{
+            item.setQuantity(item.getQuantity() - quantity);
+        }
+
+        transactionHistory.add(new Transaction(
+            "SELL", symbol, quantity, stock.getPrice(), LocalDateTime.now()
+        ));
+
+        return "Successfully sold " + quantity + " shares of " + symbol + " at $" + stock.getPrice() + " per share.";
+    }
 }
