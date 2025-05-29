@@ -140,4 +140,20 @@ public class StockTradingPlatform
 
         return "Successfully sold " + quantity + " shares of " + symbol + " at $" + stock.getPrice() + " per share.";
     }
+	
+	public void displayMarketData() 
+	{
+        System.out.println("\n=== MARKET DATA ===");
+        System.out.printf("%-6s %-20s %-10s %-12s\n", "Symbol", "Name", "Price", "Change");
+        
+        for (Stock stock : availableStocks.values()) 
+		{
+            System.out.printf("%-6s %-20s $%-10.2f %+.2f%%\n",
+                            stock.getSymbol(),
+                            stock.getName(),
+                            stock.getPrice(),
+                            stock.getPriceChange() * 100);
+        }
+    }
+
 }
