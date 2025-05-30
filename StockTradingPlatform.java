@@ -277,5 +277,35 @@ public class StockTradingPlatform
         public void setAveragePrice(double averagePrice) 
 		{ this.averagePrice = averagePrice; }
     }
+	
+	class Transaction 
+	{
+        private String action;
+        private String symbol;
+        private int quantity;
+        private double price;
+        private LocalDateTime dateTime;
+
+        public Transaction(String action, String symbol, int quantity, double price, LocalDateTime dateTime)
+		{
+            this.action = action;
+            this.symbol = symbol;
+            this.quantity = quantity;
+            this.price = price;
+            this.dateTime = dateTime;
+        }
+
+        public String getAction() 
+		{ return action; }
+        public String getSymbol()
+		{ return symbol; }
+        public int getQuantity() 
+		{ return quantity; }
+        public double getPrice() 
+		{ return price; }
+        public LocalDateTime getDateTime() 
+		{ return dateTime; }
+    }
+
 
 }
