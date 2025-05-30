@@ -216,5 +216,66 @@ public class StockTradingPlatform
                             t.getPrice() * t.getQuantity());
         }
     }
+	
+	class Stock 
+	{
+        private String symbol;
+        private String name;
+        private double price;
+        private double volatility;
+        private double previousPrice;
+
+        public Stock(String symbol, String name, double price, double volatility) 
+		{
+            this.symbol = symbol;
+            this.name = name;
+            this.price = price;
+            this.volatility = volatility;
+            this.previousPrice = price;
+        }
+
+        public String getSymbol() 
+		{ return symbol; }
+        public String getName() 
+		{ return name; }
+        public double getPrice() 
+		{ return price; }
+        public double getVolatility() 
+		{ return volatility; }
+        public double getPriceChange() 
+		{ return (price - previousPrice) / previousPrice; }
+
+        public void setPrice(double price) 
+		{
+            this.previousPrice = this.price;
+            this.price = price;
+        }
+    }
+	
+	class PortfolioItem 
+	{
+        private Stock stock;
+        private int quantity;
+        private double averagePrice;
+
+        public PortfolioItem(Stock stock, int quantity, double averagePrice) 
+		{
+            this.stock = stock;
+            this.quantity = quantity;
+            this.averagePrice = averagePrice;
+        }
+
+        public Stock getStock() 
+		{ return stock; }
+        public int getQuantity() 
+		{ return quantity; }
+        public double getAveragePrice() 
+		{ return averagePrice; }
+
+        public void setQuantity(int quantity) 
+		{ this.quantity = quantity; }
+        public void setAveragePrice(double averagePrice) 
+		{ this.averagePrice = averagePrice; }
+    }
 
 }
