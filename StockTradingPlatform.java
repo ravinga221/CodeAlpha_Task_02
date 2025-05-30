@@ -141,6 +141,49 @@ public class StockTradingPlatform
         return "Successfully sold " + quantity + " shares of " + symbol + " at $" + stock.getPrice() + " per share.";
     }
 	
+	public void displayPortfolio()
+	{
+        System.out.println("\n=== PORTFOLIO ===");
+        System.out.printf("Cash Balance: $%.2f\n", cashBalance);
+        
+        if (portfolio.isEmpty()) 
+		{
+            System.out.println("No stocks in portfolio.");
+            return;
+        }
+
+        System.out.println("\nStock Holdings:");
+        System.out.printf("%-6s %-20s %-10s %-12s %-12s %-12s\n", 
+                         "Symbol", "Name", "Quantity", "Avg Price", "Curr Price", "P/L");
+        
+        double totalValue = 0;
+        double totalCost = 0;
+        
+        for (PortfolioItem item : portfolio.values())
+		{
+            Stock stock = item.getStock();
+            double currentValue = stock.getPrice() * item.getQuantity();
+            double costBasis = item.getAveragePrice() * item.getQuantity();
+            double profitLoss = currentValue - costBasis;
+            
+            System.out.printf("%-6s %-20s %-10d $%-11.2f $%-11.2f $%-11.2f\n",
+                            stock.getSymbol(),
+                            stock.getName(),
+                            item.getQuantity(),
+                            item.getAveragePrice(),
+                            stock.getPrice(),
+                            profitLoss);
+            
+            totalValue += currentValue;
+            totalCost += costBasis;
+        }
+        
+        System.out.println("\nPortfolio Summary:");
+        System.out.printf("Total Invested: $%.2f\n", totalCost);
+        System.out.printf("Current Value:  $%.2f\n", totalValue + cashBalance);
+        System.out.printf("Total P/L:      $%.2f\n", (totalValue + cashBalance) - 10000.00);
+    }
+	
 	public void displayMarketData() 
 	{
         System.out.println("\n=== MARKET DATA ===");
