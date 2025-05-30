@@ -198,5 +198,23 @@ public class StockTradingPlatform
                             stock.getPriceChange() * 100);
         }
     }
+	
+	public void displayTransactionHistory() 
+	{
+        System.out.println("\n=== TRANSACTION HISTORY ===");
+        System.out.printf("%-20s %-6s %-8s %-10s %-12s %-12s\n",
+                         "Date/Time", "Action", "Symbol", "Quantity", "Price", "Amount");
+        
+        for (Transaction t : transactionHistory) 
+		{
+            System.out.printf("%-20s %-6s %-8s %-10d $%-11.2f $%.2f\n",
+                            t.getDateTime().format(DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm")),
+                            t.getAction(),
+                            t.getSymbol(),
+                            t.getQuantity(),
+                            t.getPrice(),
+                            t.getPrice() * t.getQuantity());
+        }
+    }
 
 }
