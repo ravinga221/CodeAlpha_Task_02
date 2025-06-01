@@ -306,6 +306,63 @@ public class StockTradingPlatform
         public LocalDateTime getDateTime() 
 		{ return dateTime; }
     }
-
-
+	
+	public static void main(String[] args)
+	{
+        StockTradingPlatform platform = new StockTradingPlatform();
+        Scanner scanner = new Scanner(System.in);
+        
+        while (true)
+		{
+            System.out.println("\n=== STOCK TRADING PLATFORM ===");
+            System.out.println("1. View Market Data");
+            System.out.println("2. View Portfolio");
+            System.out.println("3. Buy Stocks");
+            System.out.println("4. Sell Stocks");
+            System.out.println("5. View Transaction History");
+            System.out.println("6. Simulate Market Update");
+            System.out.println("7. Exit");
+            System.out.print("Select option: ");
+            
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+            
+            switch (choice) 
+			{
+                case 1:
+                    platform.displayMarketData();
+                    break;
+                case 2:
+                    platform.displayPortfolio();
+                    break;
+                case 3:
+                    System.out.print("Enter stock symbol: ");
+                    String buySymbol = scanner.nextLine().toUpperCase();
+                    System.out.print("Enter quantity: ");
+                    int buyQty = scanner.nextInt();
+                    System.out.println(platform.buyStock(buySymbol, buyQty));
+                    break;
+                case 4:
+                    System.out.print("Enter stock symbol: ");
+                    String sellSymbol = scanner.nextLine().toUpperCase();
+                    System.out.print("Enter quantity: ");
+                    int sellQty = scanner.nextInt();
+                    System.out.println(platform.sellStock(sellSymbol, sellQty));
+                    break;
+                case 5:
+                    platform.displayTransactionHistory();
+                    break;
+                case 6:
+                    platform.updateMarketData();
+                    System.out.println("Market data updated.");
+                    break;
+                case 7:
+                    System.out.println("Exiting...");
+                    scanner.close();
+                    return;
+                default:
+                    System.out.println("Invalid option. Please try again.");
+            }
+        }
+    }
 }
